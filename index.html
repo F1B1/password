@@ -51,14 +51,15 @@
     }
 
     .pin-input {
-      width: 30px;
-      height: 40px;
+      width: 38px;
+      height: 46px;
       font-size: 32px;
       text-align: center;
       background: none;
       border: 2px solid rgba(234, 236, 239, 1);
       border-radius: 4px;
       outline: none;
+      padding: 0;
       color: rgba(37, 37, 37, 1);
       transition: all 0.3s ease 0s;
       cursor: auto;
@@ -108,6 +109,9 @@
       width: 50px;
       height: 50px;
       font-size: 24px;
+      display: flex;
+      justify-content:center;
+      align-items: center;
       border: none;
       border-radius: 50%;
       cursor: pointer;
@@ -182,86 +186,92 @@
       <button class="grid-button" onclick="addPinDigit('7')">7</button>
       <button class="grid-button" onclick="addPinDigit('8')">8</button>
       <button class="grid-button" onclick="addPinDigit('9')">9</button>
-      <button class="grid-button grid-button-img" onclick="submitPin()"><img alt="" src="finger.svg"></button>
+      <button class="grid-button grid-button-img"><img alt="finger" src="./finger.svg"></button>
       <button class="grid-button" onclick="addPinDigit('0')">0</button>
-      <button class="grid-button grid-button-img" onclick="removeLastPinDigit()"><img alt="" src="delete.svg"></button>
+      <button class="grid-button grid-button-img" onclick="removeLastPinDigit()"><img alt="del" src="./delete.svg"></button>
     </div>
 
     
   </div>
 
   <script>
-    const pin = ["", "", "", "", "", ""];
+    let pin = [];
     let isErrorActive = false;
 
+    document.addEventListener("DOMContentLoaded", () => {
+      const pinInputs = document.querySelectorAll(".pin-input");
+      pin = Array(pinInputs.length).fill(""); 
+
+      pinInputs.forEach((input, index) => {
+        input.setAttribute("id", `pin-${index}`);
+      });
+    });
+
     function addPinDigit(digit) {
-    if (isErrorActive) return; 
-    const emptyIndex = pin.findIndex((x) => x === "");
-    if (emptyIndex !== -1) {
+      if (isErrorActive) return;
+
+      const emptyIndex = pin.findIndex((x) => x === "");
+      if (emptyIndex !== -1) {
         pin[emptyIndex] = digit;
         updatePinInputs(emptyIndex, digit);
-        if (emptyIndex < 5) {
-        document.getElementById(`pin-${emptyIndex + 1}`).focus();
+        if (emptyIndex === pin.length - 1) {
+          validatePin();
+        } else {
+          document.getElementById(`pin-${emptyIndex + 1}`).focus();
         }
-    }
+      }
     }
 
     function removeLastPinDigit() {
-    if (isErrorActive) return; 
-    const lastFilledIndex = pin.map((x) => x !== "").lastIndexOf(true);
-    if (lastFilledIndex !== -1) {
+      if (isErrorActive) return;
+
+      const lastFilledIndex = pin.map((x) => x !== "").lastIndexOf(true);
+      if (lastFilledIndex !== -1) {
         pin[lastFilledIndex] = "";
         updatePinInputs(lastFilledIndex, "");
         document.getElementById(`pin-${lastFilledIndex}`).focus();
-    }
+      }
     }
 
     function updatePinInputs(index, value) {
-    const input = document.getElementById(`pin-${index}`);
-    input.value = value ? "•" : "";
-    input.classList.add("animated");
-    setTimeout(() => input.classList.remove("animated"), 200);
+      const input = document.getElementById(`pin-${index}`);
+      input.value = value ? "•" : "";
+      input.classList.add("animated");
+      setTimeout(() => input.classList.remove("animated"), 200);
     }
 
-    function submitPin() {
-    if (isErrorActive) return; 
+    function validatePin() {
+      const wrapper = document.getElementById("pin-wrapper");
+      const inputs = document.querySelectorAll(".pin-input");
 
-    const wrapper = document.getElementById("pin-wrapper");
-    const inputs = document.querySelectorAll(".pin-input");
+      const isComplete = pin.every((x) => x !== "");
+      if (!isComplete) return;
 
-    const isComplete = pin.every((x) => x !== ""); 
-    isErrorActive = true;
+      isErrorActive = true;
 
-    wrapper.classList.add("shake");
+      wrapper.classList.add("shake");
 
-    inputs.forEach((input, index) => {
+      inputs.forEach((input) => {
         input.classList.add("red-border");
         input.style.color = "red";
-        input.value = pin[index] ? "•" : ""; 
-    });
+      });
 
-    setTimeout(() => {
+      setTimeout(() => {
         wrapper.classList.remove("shake");
 
         inputs.forEach((input) => {
-        input.classList.remove("red-border");
-        input.style.color = "";
+          input.classList.remove("red-border");
+          input.style.color = "";
         });
 
-        if (!isComplete) {
-        inputs.forEach((input, index) => {
-            input.value = pin[index] ? "•" : "";
-        });
-        } else {
-        inputs.forEach((input) => {
-            input.value = "";
-        });
+        inputs.forEach((input) => (input.value = ""));
         pin.fill("");
-        }
 
-        isErrorActive = false; 
-    }, 1000);
+        isErrorActive = false;
+      }, 1000);
     }
+
+
 
   </script>
   
