@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DIN Pro:wght@700&display=swap" />
 
@@ -26,12 +27,12 @@
       min-height: 100%;
     }
 
-    .header{
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content:center;
-        align-items: center;
+    .header {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
     .title {
@@ -39,7 +40,7 @@
       font-weight: 500;
       color: rgba(37, 37, 37, 1);
       padding: 0 16px;
-      margin: 0 0 32px ;
+      margin: 0 0 32px;
     }
 
     .pin-container {
@@ -63,6 +64,9 @@
       color: rgba(37, 37, 37, 1);
       transition: all 0.3s ease 0s;
       cursor: auto;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
     }
 
     .pin-input.animated {
@@ -78,10 +82,23 @@
     }
 
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-5px);
+      }
     }
 
     .description {
@@ -110,7 +127,7 @@
       height: 50px;
       font-size: 24px;
       display: flex;
-      justify-content:center;
+      justify-content: center;
       align-items: center;
       border: none;
       border-radius: 50%;
@@ -119,14 +136,14 @@
       transition: background-color 0.2s;
     }
 
-    .grid-button-img{
-        width: 40px;
-        height: 40px;
+    .grid-button-img {
+      width: 40px;
+      height: 40px;
     }
 
-    .grid-button-img img{
-        width: 100%;
-        height: 100%;
+    .grid-button-img img {
+      width: 100%;
+      height: 100%;
     }
 
     .grid-button:hover {
@@ -148,32 +165,34 @@
     }
 
     @media (min-width:768px) {
-        .title{
-            font-size: 28px;
-        }
-        .pin-input{
-            width: 40px;
-            height: 50px;
-            font-size: 42px;
-        }
+      .title {
+        font-size: 28px;
+      }
+
+      .pin-input {
+        width: 40px;
+        height: 50px;
+        font-size: 42px;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
-        <h1 class="title">Введите пароль</h1>
+      <h1 class="title">Введите пароль</h1>
 
-        <div id="pin-wrapper" class="pin-container">
-          <input id="pin-0" type="password" maxlength="1" class="pin-input" readonly>
-          <input id="pin-1" type="password" maxlength="1" class="pin-input" readonly>
-          <input id="pin-2" type="password" maxlength="1" class="pin-input" readonly>
-          <input id="pin-3" type="password" maxlength="1" class="pin-input" readonly>
-          <input id="pin-4" type="password" maxlength="1" class="pin-input" readonly>
-          <input id="pin-5" type="password" maxlength="1" class="pin-input" readonly>
-        </div>
-    
-        <p class="description">Этот пароль добавляет дополнительный уровень безопасности</p>
+      <div id="pin-wrapper" class="pin-container">
+        <input id="pin-0" type="password" maxlength="1" class="pin-input" readonly>
+        <input id="pin-1" type="password" maxlength="1" class="pin-input" readonly>
+        <input id="pin-2" type="password" maxlength="1" class="pin-input" readonly>
+        <input id="pin-3" type="password" maxlength="1" class="pin-input" readonly>
+        <input id="pin-4" type="password" maxlength="1" class="pin-input" readonly>
+        <input id="pin-5" type="password" maxlength="1" class="pin-input" readonly>
+      </div>
+
+      <p class="description">Этот пароль добавляет дополнительный уровень безопасности</p>
     </div>
 
     <div class="button-grid">
@@ -188,10 +207,11 @@
       <button class="grid-button" onclick="addPinDigit('9')">9</button>
       <button class="grid-button grid-button-img"><img alt="finger" src="./finger.svg"></button>
       <button class="grid-button" onclick="addPinDigit('0')">0</button>
-      <button class="grid-button grid-button-img" onclick="removeLastPinDigit()"><img alt="del" src="./delete.svg"></button>
+      <button class="grid-button grid-button-img" onclick="removeLastPinDigit()"><img alt="del"
+          src="./delete.svg"></button>
     </div>
 
-    
+
   </div>
 
   <script>
@@ -200,7 +220,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       const pinInputs = document.querySelectorAll(".pin-input");
-      pin = Array(pinInputs.length).fill(""); 
+      pin = Array(pinInputs.length).fill("");
 
       pinInputs.forEach((input, index) => {
         input.setAttribute("id", `pin-${index}`);
@@ -274,6 +294,7 @@
 
 
   </script>
-  
+
 </body>
+
 </html>
